@@ -14,10 +14,10 @@ set lua_out_path=".\ProtoCode\Lua"
 
 mkdir %csharp_out_path%
 mkdir %python_out_path%
-
-rem Client's lua proto path
+mkdir %cpp_out_path%
 mkdir %lua_out_path%
 
+rem Gen lua code
 cd Tools\proto
 python gen_msgid.py
 python proto_enum_to_lua.py
