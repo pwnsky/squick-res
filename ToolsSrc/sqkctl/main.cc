@@ -43,7 +43,10 @@ int main(int argc, const char *argv[]) {
         std::cout << "Excel path: " << excelPath << std::endl;
         std::cout << "Out path: " << outPath << std::endl;
         auto t1 = SquickGetTimeMS();
-
+        Files::StringReplace(excelPath, "\\", "/");
+        Files::StringReplace(excelPath, "//", "/");
+        Files::StringReplace(outPath, "\\", "/");
+        Files::StringReplace(outPath, "//", "/");
         ConfigGenerator fp(excelPath, outPath);
         fp.SetUTF8(false); // set it true to convert UTF8 to GBK which is to show Chinese words in Squick
         fp.LoadDataFromExcel();

@@ -13,8 +13,8 @@ class IGenerator {
     void SetPath(const std::string &excelPath, const std::string &outPath) {
 
         this->outPath = outPath;
-        strXMLStructPath = outPath + "/struct/";
-        strXMLIniPath = outPath + "/ini/";
+        strXMLStructPath = outPath + "/XlsxXML/Struct";
+        strXMLIniPath = outPath + "/XlsxXML/Ini";
         strExcelIniPath = excelPath;
     }
 

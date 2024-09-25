@@ -5,25 +5,30 @@ rem Date  : 2022-11-27
 rem Github: https://github.com/pwnsky/squick
 rem Description: Generate configuration files
 
-set config_path=.\ResXML
-set XlsxXmlPath=./ResXML
-set XlsxPath=./Xlsx
+set ExportPath=.\
+set XlsxPath=.\Xlsx
 set struct_path=..\src\struct
 set lua_struct_path=..\src\lua\struct
 set client_config_path=..\client
 set lua_src_path=..\src\lua
 
-mkdir %config_path%\excel
-mkdir %config_path%\struct
-mkdir %config_path%\ini
+mkdir %ExportPath%\XlsxCode
+mkdir %ExportPath%\XlsxXML\Struct
+mkdir %ExportPath%\XlsxXML\Ini
 
-.\Tools\sqkctl excel %XlsxPath% %XlsxXmlPath%
+.\Tools\sqkctl excel %XlsxPath% %ExportPath%
 if %errorlevel% equ 0 (
     echo "Excel to config succ"
 ) else (
     echo "Excel to config Failed!"
     pause
     exit 1
+)
+
+if "%1"=="no_pause" (
+    echo continue
+) else (
+    pause
 )
 
 @REM rem copy to server
@@ -45,8 +50,3 @@ if %errorlevel% equ 0 (
 @REM xcopy /s /e /y %config_path%\excel %client_config_path%\excel
 @REM rd /s/q %config_path%\excel
 
-if "%1"=="no_pause" (
-    echo continue
-) else (
-    pause
-)

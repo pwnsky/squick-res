@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<XML>
+	<Propertys>
+		<Property Id="ActorID" Desc="actorid" Type="int" />
+		<Property Id="GroupID" Desc="无需配置" Type="int" />
+		<Property Id="MaxGroup" Desc="最大组" Type="int" />
+		<Property Id="MaxGroupPlayers" Desc="每组最大人数" Type="int" />
+		<Property Id="RelivePos" Desc="复活坐标列表" Type="string" />
+		<Property Id="RelivePosEx" Desc="复活坐标列表" Type="string" />
+		<Property Id="ResourcePos" Desc="" Type="string" />
+		<Property Id="SceneID" Desc="无需配置" Type="int" />
+		<Property Id="SceneName" Desc="" Type="string" />
+		<Property Id="SceneShowName" Desc="" Type="string" />
+		<Property Id="SoundList" Desc="场景背景音乐列表" Type="string" />
+		<Property Id="SubType" Desc="" Type="int" />
+		<Property Id="Type" Desc="场景类型: 类型查看proto ESceneType" Type="int" />
+		<Property Id="Width" Desc="场景宽度" Type="int" />
+	</Propertys>
+	<Records>
+	</Records>
+	<Includes>
+	</Includes>
+</XML>

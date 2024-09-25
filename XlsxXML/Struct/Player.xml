@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<XML>
+	<Propertys>
+		<Property Id="Account" Desc="玩家的帐号" Type="string" />
+		<Property Id="GameID" Desc="登陆的服ID" Type="int" />
+		<Property Id="GateID" Desc="登陆的网关ID" Type="int" />
+		<Property Id="LastOfflineTime" Desc="上次下线时间" Type="object" />
+		<Property Id="OnlineCount" Desc="上线次数" Type="int" />
+		<Property Id="OnlineTime" Desc="本次上线时间" Type="object" />
+		<Property Id="Position" Desc="" Type="vector3" />
+		<Property Id="TotalTime" Desc="在线时间" Type="int" />
+	</Propertys>
+	<Records>
+	</Records>
+	<Includes>
+	</Includes>
+</XML>

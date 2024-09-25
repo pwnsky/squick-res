@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<XML>
+	<Propertys>
+	</Propertys>
+	<Records>
+		<Record Id="Inventory" Col="2"	 Row="512"	 >
+			<Col Type ="string"	Tag="ConfigID"/><!--- Desc-->
+			<Col Type ="int"	Tag="ItemCount"/>
+		</Record>
+		<Record Id="InventoryEquipment" Col="14"	 Row="256"	 >
+			<Col Type ="object"	Tag="GUID"/><!--- Desc-->
+			<Col Type ="string"	Tag="ConfigID"/>
+			<Col Type ="string"	Tag="RandPropertyID"/>
+			<Col Type ="int"	Tag="RandPropertyValue"/>
+			<Col Type ="int"	Tag="IntensifyLevel"/>
+			<Col Type ="int"	Tag="Date"/>
+			<Col Type ="int"	Tag="Equipped"/>
+			<Col Type ="string"	Tag="Stone1"/>
+			<Col Type ="string"	Tag="Stone2"/>
+			<Col Type ="string"	Tag="Stone3"/>
+			<Col Type ="string"	Tag="Stone4"/>
+			<Col Type ="int"	Tag="Lock"/>
+			<Col Type ="int"	Tag="Future"/>
+			<Col Type ="string"	Tag="UserData"/>
+		</Record>
+	</Records>
+	<Includes>
+	</Includes>
+</XML>

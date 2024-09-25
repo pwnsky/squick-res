@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<XML>
+	<Propertys>
+		<Property Id="Disable" Type="int" />
+		<Property Id="GroupID" Desc="" Type="int" />
+		<Property Id="MasterID" Desc="" Type="object" />
+		<Property Id="MoveTo" Desc="" Type="vector3" />
+		<Property Id="Position" Desc="" Type="vector3" />
+		<Property Id="SceneID" Desc="" Type="int" />
+	</Propertys>
+	<Records>
+	</Records>
+	<Includes>
+	</Includes>
+</XML>

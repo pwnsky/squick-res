@@ -121,7 +121,7 @@ class StructGenerator : public IGenerator {
 
                     std::string path = includeClass->filePath;
                     Files::StringReplace(path, strExcelIniPath, "");
-                    std::string fileName = "config/struct" + path + ".xml";
+                    std::string fileName = path + ".xml";
 
                     strFileIncludeBody += "\t\t<Include Id=\"" + fileName + "\" />";
                     strFileIncludeBody += "\n";

@@ -7,7 +7,7 @@ class CSGenerator : public IGenerator {
     CSGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        FILE *csWriter = fopen((outPath + "/excel/Excel.cs").c_str(), "w");
+        FILE *csWriter = fopen((outPath + "/XlsxCode/Excel.cs").c_str(), "w");
 
         std::string strFileHead = "// -------------------------------------------------------------------------\n";
         strFileHead = strFileHead + "//    @FileName         :    Excel.cs\n" + "//    @Author           :    I0gan\n" +

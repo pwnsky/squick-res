@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<XML>
+	<Object Id="SceneID_1" ActorID="0" GroupID="0" MaxGroup="99999" MaxGroupPlayers="1000" RelivePos="0,0.5,0;1,0.5,1;2,0.5,3" RelivePosEx="10,10,10" ResourcePos="10,10,10" SceneID="0" SceneName="World" SceneShowName="世界" SoundList="" SubType="0" Type="0" Width="500" />
+	<Object Id="SceneID_2" ActorID="0" GroupID="0" MaxGroup="9999999" MaxGroupPlayers="1" RelivePos="0,0.5,0;1,0.5,1;2,0.5,3" RelivePosEx="10,10,10" ResourcePos="10,10,10" SceneID="0" SceneName="Lobby" SceneShowName="玩家个人大厅" SoundList="" SubType="1" Type="1" Width="500" />
+	<Object Id="SceneID_3" ActorID="1" GroupID="0" MaxGroup="99999" MaxGroupPlayers="10" RelivePos="0,0.5,0;1,0.5,1;2,0.5,3" RelivePosEx="10,10,10" ResourcePos="10,10,10" SceneID="0" SceneName="PvpRoom" SceneShowName="PVP对战房间" SoundList="" SubType="2" Type="2" Width="500" />
+</XML>

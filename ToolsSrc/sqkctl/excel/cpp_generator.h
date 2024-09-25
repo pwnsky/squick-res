@@ -8,7 +8,7 @@ class CPPGenerator : public IGenerator {
     CPPGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        FILE *hppWriter = fopen((outPath + "/excel/excel.h").c_str(), "w");
+        FILE *hppWriter = fopen((outPath + "/XlsxCode/excel.h").c_str(), "w");
 
         std::string strFileHead;
 
