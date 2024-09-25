@@ -60,6 +60,7 @@ if "%1"=="no_pause" (
 ) else if "%1"=="server" (
     echo "Copy to server"
     xcopy /s /e /y ProtoCode\Cpp ..\src\struct
+    mkdir ..\pycli\proto
     xcopy /s /e /y ProtoCode\Python ..\pycli\proto
     copy ProtoCode\Lua\enum_all.lua ..\src\lua\proto\enum.lua
 ) else (
