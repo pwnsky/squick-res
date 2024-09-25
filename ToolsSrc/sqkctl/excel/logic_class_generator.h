@@ -8,7 +8,7 @@ class LogicClassGenerator : public IGenerator {
     LogicClassGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        std::string fileName = strXMLStructPath + "/Root.xml";
+        std::string fileName = outPath + "/XlsxXML/Root.xml";
 
         FILE *iniWriter = fopen(fileName.c_str(), "w");
 
@@ -23,8 +23,8 @@ class LogicClassGenerator : public IGenerator {
         std::string path = pBaseObject->filePath;
         Files::StringReplace(path, strExcelIniPath, "");
 
-        strElementData += "Path=\"config/struct" + path + ".xml\"\t";
-        strElementData += "InstancePath=\"config/ini" + path + ".xml\"\t>\n"; // 已修复bug
+        strElementData += "Path=\"Struct" + path + ".xml\"\t";
+        strElementData += "InstancePath=\"Ini" + path + ".xml\"\t>\n"; // 已修复bug
 
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it) {
             const std::string &className = it->first;
@@ -42,8 +42,8 @@ class LogicClassGenerator : public IGenerator {
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
 
-            strElementData += "Path=\"config/struct" + path + ".xml\"\t";
-            strElementData += "InstancePath=\"config/ini" + path + ".xml\"\t/>\n";
+            strElementData += "Path=\"Struct" + path + ".xml\"\t";
+            strElementData += "InstancePath=\"Ini" + path + ".xml\"\t/>\n";
         }
 
         strElementData += "\t</Class>\n";

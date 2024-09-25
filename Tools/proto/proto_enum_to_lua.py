@@ -97,11 +97,11 @@ for root, dirs, files in os.walk(res_path + '/Proto/'):
         if f.endswith('.proto'):
             parse_proto(os.path.join(root, f))
 
-generate_lua_file(res_path + '/ProtoCode/Lua/enum.lua')
-
+generate_lua_file(res_path + '/ProtoCode/Lua/enum_all.lua')
 
 parser_result = {}
 package_list = {}
+
 # generate the client
 for root, dirs, files in os.walk(res_path + '/Proto/'):
     for f in files:

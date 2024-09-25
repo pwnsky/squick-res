@@ -12,6 +12,8 @@ set csharp_out_path=".\ProtoCode\Csharp"
 set python_out_path=".\ProtoCode\Python"
 set lua_out_path=".\ProtoCode\Lua"
 
+del /f /q /s  ProtoCode\*
+
 mkdir %csharp_out_path%
 mkdir %python_out_path%
 mkdir %cpp_out_path%
@@ -55,6 +57,11 @@ echo "Proto to code succ"
 
 if "%1"=="no_pause" (
     echo continue
+) else if "%1"=="server" (
+    echo "Copy to server"
+    xcopy /s /e /y ProtoCode\Cpp ..\src\struct
+    xcopy /s /e /y ProtoCode\Python ..\pycli\proto
+    copy ProtoCode\Lua\enum_all.lua ..\src\lua\proto\enum.lua
 ) else (
     pause
 )
