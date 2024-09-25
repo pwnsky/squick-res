@@ -10,9 +10,9 @@ proto_str = ""
 is_find_package = False
 is_find_syntax  = False
 variable_name = "proto_code"
-project_path = '../..'
+res_path = '../..'
 def generate_lua_file():
-    with open( project_path + '/client/proto/lua/proto.lua', 'w+', encoding='utf-8') as out:
+    with open( res_path + '/ProtoCode/Lua/proto.lua', 'w+', encoding='utf-8') as out:
         out.write('''----------------------------------------------------------------------------------
 -- don't edit it, generated from .proto files by tools
 ----------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ def parse_proto(f):
                     continue
                 proto_str += line
 
-for root, dirs, files in os.walk(project_path + '/res/proto/'):
+for root, dirs, files in os.walk(res_path + '/Proto/'):
     for f in files:
         file_name = os.path.basename(f)
         if f.endswith('.proto') and f.startswith("n_") == False:

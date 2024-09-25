@@ -5,25 +5,24 @@ rem Date  : 2023-01-04
 rem Github: https://github.com/pwnsky/squick
 rem Description: Generate proto code
 
-
-set proto_bin=..\third_party\build\bin\protoc
-set proto_path="..\res\proto"
-set cpp_out_path="..\src\struct"
-set csharp_out_path="..\client\proto\csharp"
-set python_out_path="..\src\pycli\proto"
-set lua_out_path=""
+set proto_bin=.\Tools\protoc\protoc
+set proto_path=".\Proto"
+set cpp_out_path=".\ProtoCode\Cpp"
+set csharp_out_path=".\ProtoCode\Csharp"
+set python_out_path=".\ProtoCode\Python"
+set lua_out_path=".\ProtoCode\Lua"
 
 mkdir %csharp_out_path%
 mkdir %python_out_path%
 
 rem Client's lua proto path
-mkdir ..\client\proto\lua
+mkdir %lua_out_path%
 
-cd proto
+cd Tools\proto
 python gen_msgid.py
 python proto_enum_to_lua.py
 python proto_to_lua_str.py
-cd ..
+cd ..\..
 
 for %%f in (%proto_path%\*.proto) do (
     %proto_bin% --csharp_out=%csharp_out_path% --proto_path=%proto_path% %%f

@@ -6,9 +6,8 @@ rem Github: https://github.com/pwnsky/squick
 rem Description: Generate configuration files
 
 set config_path=.\ResXML
-set config_path_gen=../config
-set excel_path=..\resource\excel
-set excel_path_gen=../resource/excel
+set XlsxXmlPath=./ResXML
+set XlsxPath=./Xlsx
 set struct_path=..\src\struct
 set lua_struct_path=..\src\lua\struct
 set client_config_path=..\client
@@ -18,7 +17,7 @@ mkdir %config_path%\excel
 mkdir %config_path%\struct
 mkdir %config_path%\ini
 
-.\Tools\sqkctl excel %excel_path_gen% %config_path_gen%
+.\Tools\sqkctl excel %XlsxPath% %XlsxXmlPath%
 if %errorlevel% equ 0 (
     echo "Excel to config succ"
 ) else (
@@ -27,24 +26,24 @@ if %errorlevel% equ 0 (
     exit 1
 )
 
-rem copy to server
-copy ..\config\excel\excel.h %struct_path%
-mkdir %lua_struct_path%
-copy ..\config\excel\excel.lua %lua_struct_path%
+@REM rem copy to server
+@REM copy ..\config\excel\excel.h %struct_path%
+@REM mkdir %lua_struct_path%
+@REM copy ..\config\excel\excel.lua %lua_struct_path%
 
-rem copy to client
-mkdir %client_config_path%\ini
-mkdir %client_config_path%\excel
-mkdir %client_config_path%\struct
-mkdir %client_config_path%\lua
-mkdir %client_config_path%\csharp
+@REM rem copy to client
+@REM mkdir %client_config_path%\ini
+@REM mkdir %client_config_path%\excel
+@REM mkdir %client_config_path%\struct
+@REM mkdir %client_config_path%\lua
+@REM mkdir %client_config_path%\csharp
 
 
-xcopy /s /e /y %config_path%\ini %client_config_path%\ini
-xcopy /s /e /y %config_path%\struct %client_config_path%\struct
+@REM xcopy /s /e /y %config_path%\ini %client_config_path%\ini
+@REM xcopy /s /e /y %config_path%\struct %client_config_path%\struct
 
-xcopy /s /e /y %config_path%\excel %client_config_path%\excel
-rd /s/q %config_path%\excel
+@REM xcopy /s /e /y %config_path%\excel %client_config_path%\excel
+@REM rd /s/q %config_path%\excel
 
 if "%1"=="no_pause" (
     echo continue

@@ -28,7 +28,7 @@ ConfigGenerator::ConfigGenerator(const std::string &excelPath, const std::string
 ConfigGenerator::~ConfigGenerator() {}
 
 bool ConfigGenerator::LoadDataFromExcel() {
-    LoadDataFromExcel(strExcelIniPath + "/common/IObject.xlsx", "IObject");
+    LoadDataFromExcel(strExcelIniPath + "/IObject.xlsx", "IObject");
 
     auto fileList = Files::GetFileListInFolder(strExcelIniPath, 1);
 
