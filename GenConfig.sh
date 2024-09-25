@@ -11,7 +11,6 @@ lua_struct_path="../src/lua/struct"
 client_config_path="../client"
 excel_path='../resource/excel'
 
-
 bash ./clean_config.sh
 # 生成配置文件
 mkdir -p $config_path/excel

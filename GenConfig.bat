@@ -5,7 +5,7 @@ rem Date  : 2022-11-27
 rem Github: https://github.com/pwnsky/squick
 rem Description: Generate configuration files
 
-set config_path=..\config
+set config_path=.\ResXML
 set config_path_gen=../config
 set excel_path=..\resource\excel
 set excel_path_gen=../resource/excel
@@ -18,7 +18,7 @@ mkdir %config_path%\excel
 mkdir %config_path%\struct
 mkdir %config_path%\ini
 
-.\bin\sqkctl excel %excel_path_gen% %config_path_gen%
+.\Tools\sqkctl excel %excel_path_gen% %config_path_gen%
 if %errorlevel% equ 0 (
     echo "Excel to config succ"
 ) else (

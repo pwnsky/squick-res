@@ -125,7 +125,7 @@ if (UNIX)
     SET ( CMAKE_CXX_FLAGS "-g" )	
 endif()
 
-SquickOut(${ProjectName} ${ProjectName} ${SolutionDir}/tools/bin ${ProjectName})
+SquickOut(${ProjectName} ${ProjectName} ${SolutionDir}/res/Tools ${ProjectName})
 add_definitions(
 	-D_CRT_SECURE_NO_WARNINGS
 	-D_CRT_NONSTDC_NO_DEPRECATE
