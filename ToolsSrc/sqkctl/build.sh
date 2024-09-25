@@ -6,9 +6,12 @@
 # Description: Build sqkctl tools
 cd $(dirname $0)
 source ../../../tools/common.sh
+project_path=`realpath ../../..`
+build_path=$project_path/cache
 
 echo "build_path: " $build_path
 echo "project_path: " $project_path
+
 # 编译工具
 cd ${project_path}
 mkdir -p "${build_path}/sqkctl"
@@ -17,5 +20,5 @@ pwd
 
 log_info "Start to build sqkctl tools"
 
-cmake ${project_path}/src/tools/sqkctl
+cmake ${project_path}/res/ToolsSrc/sqkctl
 time make -j $(nproc)

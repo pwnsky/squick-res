@@ -5,28 +5,18 @@
 # Github: https://github.com/pwnsky/squick
 # Description: Generate configuration files
 cd $(dirname $0)
-config_path="../config"
-struct_path="../src/struct"
-lua_struct_path="../src/lua/struct"
-client_config_path="../client"
-excel_path='../resource/excel'
+excel_path="./Xlsx"
+export_path="."
 
-bash ./clean_config.sh
+rm -rf $export_path/XlsxCode
+rm -rf $export_path/XlsxXML
+
 # 生成配置文件
-mkdir -p $config_path/excel
-mkdir -p $config_path/struct
-mkdir -p $config_path/ini
+mkdir -p $export_path/XlsxCode
+mkdir -p $export_path/XlsxXML/Struct
+mkdir -p $export_path/XlsxXML/Ini
 
-./bin/sqkctl excel $excel_path $config_path
-cp -a $config_path/excel/excel.h $struct_path
-cp -a $config_path/excel/excel.lua $lua_struct_path
+./Tools/sqkctl excel $excel_path $export_path
 
-mkdir -p $client_config_path/ini
-mkdir -p $client_config_path/excel
-mkdir -p $client_config_path/struct
-
-cp -a $config_path/ini $client_config_path
-cp -a $config_path/struct $client_config_path
-cp -a $config_path/excel $client_config_path
-
-rm -rf $config_path/excel
+#cp -a $config_path/excel/excel.h $struct_path
+#cp -a $config_path/excel/excel.lua $lua_struct_path
