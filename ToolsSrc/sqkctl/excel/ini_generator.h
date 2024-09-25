@@ -9,7 +9,6 @@ class IniGenerator : public IGenerator {
     IniGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        strXMLIniPath = outPath + "/ini";
         ClassData *pBaseObject = classData.at("IObject");
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it) {
             const std::string &className = it->first;
