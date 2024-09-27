@@ -18,5 +18,8 @@ mkdir -p $export_path/XlsxXML/Ini
 
 ./Tools/sqkctl excel $excel_path $export_path
 
-#cp -a $config_path/excel/excel.h $struct_path
-#cp -a $config_path/excel/excel.lua $lua_struct_path
+if [[ "$1" == "server" ]];then
+    echo "Copy to server"
+    cp -a $export_path/XlsxCode/excel.h ../src/struct
+    cp -a $export_path/XlsxCode/excel.lua ../src/lua/struct
+fi
