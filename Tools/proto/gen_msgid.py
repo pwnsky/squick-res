@@ -84,7 +84,7 @@ def generate_cpp_file():
 #pragma once
 #include <vector>
 #include <string>
-#include <squick/core/platform.h>
+#include <core/platform.h>
 SQUICK_CPP_EXPORT std::vector<std::string> GetAllProtoFiles();
 SQUICK_CPP_EXPORT std::string GetMessageNameByID(int msg_id);
 ''')
