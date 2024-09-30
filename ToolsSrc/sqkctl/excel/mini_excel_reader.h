@@ -5,7 +5,7 @@
 #include "third_party/rapidxml/rapidxml_iterators.hpp"
 #include "third_party/rapidxml/rapidxml_print.hpp"
 #include "third_party/rapidxml/rapidxml_utils.hpp"
-#include <squick/core/platform.h>
+#include <core/platform.h>
 #include <string>
 #include <vector>
 

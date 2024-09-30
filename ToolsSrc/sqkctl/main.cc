@@ -7,7 +7,7 @@
 #include "diff/diff.h"
 #include "init/init.h"
 #include "patch/patch.h"
-#include <squick/core/platform.h>
+#include <core/platform.h>
 
 using namespace sqkctl;
 

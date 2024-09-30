@@ -8,7 +8,7 @@
 #include "mini_excel_reader.h"
 #include "struct_generator.h"
 #include "third_party/common/lexical_cast.hpp"
-#include <squick/core/platform.h>
+#include <core/platform.h>
 
 namespace sqkctl {
 class Test {
