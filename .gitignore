@@ -2,3 +2,8 @@ ProtoCode
 Proto/n_msg_id.proto
 Proto/msg_id.proto
 Tools/sqkctl
+Tools/pycli/proto
+Tools/pycli/login.cookie
+*__pycache__*
+.pytest_cache
+__pycache__

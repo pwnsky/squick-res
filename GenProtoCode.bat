@@ -54,6 +54,7 @@ for %%f in (%proto_path%\*.proto) do (
 rem 删除多余的proto
 del /f /q /s %csharp_out_path%\N*.cs
 echo "Proto to code succ"
+xcopy /s /e /y ProtoCode\Python Tools\pycli\proto
 
 if "%1"=="no_pause" (
     echo continue
@@ -61,7 +62,6 @@ if "%1"=="no_pause" (
     echo "Copy to server"
     xcopy /s /e /y ProtoCode\Cpp ..\src\struct
     mkdir ..\pycli\proto
-    xcopy /s /e /y ProtoCode\Python ..\pycli\proto
     copy ProtoCode\Lua\enum_all.lua ..\src\lua\proto\enum.lua
 ) else (
     pause

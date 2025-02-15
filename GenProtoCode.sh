@@ -46,11 +46,12 @@ done
 # remove nodes rpc files
 rm $csharp_out_path/N*.cs
 
+mkdir -p Tools/pycli/proto
+cp $python_out_path/* Tools/pycli/proto
+check_err
+
 # copy for server
 cp $cpp_out_path/* ../src/struct
-check_err
-mkdir -p ../pycli/proto
-cp $python_out_path/* ../pycli/proto
 check_err
 cp $lua_out_path/enum_all.lua ../src/lua/proto/enum.lua
 
