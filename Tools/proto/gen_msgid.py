@@ -68,7 +68,7 @@ def generate_cpp_file():
              cc_code += '"' + file_name + '", '
         cc_code += "};\n}\n\n"
         # 
-        cc_code += 'std::string GetMessageNameByID(int msg_id) {\n'
+        cc_code += 'std::string GetMessageNameByID(uint32_t msg_id) {\n'
         cc_code += "   switch(msg_id) {\n"
         for msg_id, value in parser_result.items():
             name = value["name"]
@@ -86,7 +86,7 @@ def generate_cpp_file():
 #include <string>
 #include <core/platform.h>
 SQUICK_CPP_EXPORT std::vector<std::string> GetAllProtoFiles();
-SQUICK_CPP_EXPORT std::string GetMessageNameByID(int msg_id);
+SQUICK_CPP_EXPORT std::string GetMessageNameByID(uint32_t msg_id);
 ''')
 
 def parse_proto(f, is_node_proto):
