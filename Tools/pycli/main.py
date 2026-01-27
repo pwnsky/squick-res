@@ -54,8 +54,8 @@ def AuthConnection(ws):
     ws.send(data, 2)
 
 def HandleMsg(data):
-    msg_id, msg = Decode(data)
-    Instance['callback'][msg_id](msg_id, msg)
+    msg_id, length, data = Decode(data)
+    Instance['callback'][msg_id](msg_id, data)
 
 def OnWsRecv(ws, message):
     HandleMsg(message)

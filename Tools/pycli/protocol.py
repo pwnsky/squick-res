@@ -28,4 +28,6 @@ def Decode(recv_data):
         print("Error: invalid msg signature")
     msg_id = int.from_bytes(recv_data[1:5], byteorder='big', signed=False)
     length = int.from_bytes(recv_data[5:9], byteorder='big', signed=False)
-    return msg_id, recv_data[9:], length
+    data = recv_data[9:]
+    # print("Decode recv_data: ", recv_data, " length: ", length, " msg_id: ", msg_id, "data: ", data)
+    return msg_id, length, data
