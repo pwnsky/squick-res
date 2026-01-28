@@ -30,6 +30,9 @@ if "%1"=="no_pause" (
     echo "Copy to server"
     copy XlsxCode\excel.lua ..\src\lua\struct
     copy XlsxCode\excel.h ..\src\struct
+)else if "%1"=="unreal" (
+    echo "Copy to unreal"
+    xcopy /s /e /y XlsxCode\Lua ..\Content\Script\Excel
 )else (
     pause
 )

@@ -9,3 +9,4 @@ XlsxXML
 *__pycache__*
 .pytest_cache
 __pycache__
+Proto/msg_id.proto
