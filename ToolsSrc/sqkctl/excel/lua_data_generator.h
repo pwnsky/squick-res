@@ -29,7 +29,7 @@ class LuaDataGenerator : public IGenerator {
         std::string path = pBaseObject->filePath;
         Files::StringReplace(path, strExcelIniPath, "");
 
-        strElementData += " require(\"Data/" + path + ".\")\n";
+        strElementData += " require(\"Data" + path + ".\")\n";
 
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it)
         {
@@ -48,7 +48,7 @@ class LuaDataGenerator : public IGenerator {
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
 
-            strElementData += " = require(\"Data/" + path + "\")\n";
+            strElementData += " = require(\"Data" + path + "\")\n";
         }
         fwrite(strElementData.c_str(), strElementData.length(), 1, iniWriter);
         fclose(iniWriter);
