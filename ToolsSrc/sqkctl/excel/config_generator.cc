@@ -18,6 +18,7 @@ ConfigGenerator::ConfigGenerator(const std::string &excelPath, const std::string
     mxGenerators.push_back(new LogicClassGenerator(excelPath, outPath));
     mxGenerators.push_back(new StructGenerator(excelPath, outPath));
     mxGenerators.push_back(new LuaGenerator(excelPath, outPath));
+    mxGenerators.push_back(new LuaDataGenerator(excelPath, outPath));
 
     strExcelIniPath = excelPath;
     strXMLStructPath = outPath + "/XlsxXML/Struct";

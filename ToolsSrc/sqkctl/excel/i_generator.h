@@ -15,6 +15,7 @@ class IGenerator {
         this->outPath = outPath;
         strXMLStructPath = outPath + "/XlsxXML/Struct";
         strXMLIniPath = outPath + "/XlsxXML/Ini";
+        strLuaDataPath = outPath + "/XlsxCode/Lua";
         strExcelIniPath = excelPath;
     }
 
@@ -23,6 +24,7 @@ class IGenerator {
     std::string strExcelIniPath;
     std::string strXMLStructPath;
     std::string strXMLIniPath;
+    std::string strLuaDataPath;
     std::string outPath;
 };
 

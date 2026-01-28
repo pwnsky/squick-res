@@ -5,10 +5,12 @@
 #include "ini_generator.h"
 #include "logic_class_generator.h"
 #include "lua_generator.h"
-#include "mini_excel_reader.h"
 #include "struct_generator.h"
-#include "third_party/common/lexical_cast.hpp"
+#include "lua_data_generator.h"
+
 #include <core/platform.h>
+#include "mini_excel_reader.h"
+#include "third_party/common/lexical_cast.hpp"
 
 namespace sqkctl {
 class Test {
