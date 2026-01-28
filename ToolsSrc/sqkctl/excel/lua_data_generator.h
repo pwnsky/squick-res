@@ -8,7 +8,57 @@ class LuaDataGenerator : public IGenerator {
   public:
     LuaDataGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
+    bool GenerateRoot(const std::map<std::string, ClassData *> &classData) {
+        std::string fileName = outPath + "/XlsxCode/Lua/Root.lua";
+        std::string rootOutPath = outPath + "/XlsxCode/Lua";
+#if PLATFORM == PLATFORM_WIN
+        mkdir(rootOutPath.c_str());
+#else
+        mkdir(rootOutPath.c_str(), 0777);
+#endif
+        FILE *iniWriter = fopen(fileName.c_str(), "w");
+
+        std::string strFileHead = "-- don't edit it, generated from xlsx files by tools\n";
+        fwrite(strFileHead.c_str(), strFileHead.length(), 1, iniWriter);
+
+        ClassData *pBaseObject = classData.at("IObject");
+        
+        std::string strElementData = "Excel = {}\n";
+        strElementData += "Excel[\"" + pBaseObject->xStructData.className + "\"] = ";
+
+        std::string path = pBaseObject->filePath;
+        Files::StringReplace(path, strExcelIniPath, "");
+
+        strElementData += " require(\"Data/" + path + ".\")\n";
+
+        for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it)
+        {
+            const std::string &className = it->first;
+            ClassData *pClassDta = it->second;
+            if (className == "IObject") {
+                continue;
+            }
+
+            if (it->second->beIncluded || it->second->beParted) {
+                continue;
+            }
+
+            strElementData += "Excel[\"" + pClassDta->xStructData.className + "\"]";
+
+            std::string path = pClassDta->filePath;
+            Files::StringReplace(path, strExcelIniPath, "");
+
+            strElementData += " = require(\"Data/" + path + "\")\n";
+        }
+        fwrite(strElementData.c_str(), strElementData.length(), 1, iniWriter);
+        fclose(iniWriter);
+        return false;
+    };
+
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
+
+        GenerateRoot(classData);
+        
         ClassData *pBaseObject = classData.at("IObject");
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it) {
             const std::string &className = it->first;
