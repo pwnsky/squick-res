@@ -33,6 +33,7 @@ if "%1"=="no_pause" (
 )else if "%1"=="unreal" (
     echo "Copy to unreal"
     xcopy /s /e /y XlsxCode\Lua ..\Content\Script\Excel
+    del /f /q /s  ..\Content\Script\Excel\Root.lua
 )else (
     pause
 )
