@@ -8,8 +8,14 @@ class LuaDataGenerator : public IGenerator {
   public:
     LuaDataGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
-    bool GenerateRoot(const std::map<std::string, ClassData *> &classData) {
-        std::string fileName = outPath + "/XlsxCode/Lua/Root.lua";
+    bool GenerateRoot(const std::map<std::string, ClassData *> &classData, bool isForUnreal = false) {
+        std::string fileName;
+        if (isForUnreal) {
+            fileName = outPath + "/XlsxCode/Lua/Init.lua";
+        }
+        else {
+            fileName = outPath + "/XlsxCode/Lua/Root.lua";
+        }
         std::string rootOutPath = outPath + "/XlsxCode/Lua";
 #if PLATFORM == PLATFORM_WIN
         mkdir(rootOutPath.c_str());
@@ -28,8 +34,16 @@ class LuaDataGenerator : public IGenerator {
 
         std::string path = pBaseObject->filePath;
         Files::StringReplace(path, strExcelIniPath, "");
-
-        strElementData += " require(\"Data" + path + "\")\n";
+        string preFixPath = "";
+        if (isForUnreal)
+        {
+            preFixPath = "Excel/Data";
+        }
+        else
+        {
+            preFixPath = "Data";
+        }
+        strElementData += " require(\"" + preFixPath + path + "\")\n";
 
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it)
         {
@@ -48,7 +62,7 @@ class LuaDataGenerator : public IGenerator {
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
 
-            strElementData += " = require(\"Data" + path + "\")\n";
+            strElementData += " = require(\"" + preFixPath + path + "\")\n";
         }
         fwrite(strElementData.c_str(), strElementData.length(), 1, iniWriter);
         fclose(iniWriter);
@@ -57,7 +71,11 @@ class LuaDataGenerator : public IGenerator {
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
 
+        // generate for server
         GenerateRoot(classData);
+        
+        // generate for unreal
+        GenerateRoot(classData, true);
         
         ClassData *pBaseObject = classData.at("IObject");
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it) {
