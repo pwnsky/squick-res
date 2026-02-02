@@ -122,7 +122,13 @@ set_target_properties( ${proName} PROPERTIES
 endmacro(SquickOut)
 
 if (UNIX)
-    SET ( CMAKE_CXX_FLAGS "-g" )	
+	SET ( CMAKE_CXX_FLAGS "-g" )
+else()
+	set_property ( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${ProjectName} )
+	set_target_properties(${ProjectName} PROPERTIES
+		VS_DEBUGGER_COMMAND_ARGUMENTS "./Xlsx ./"
+		VS_DEBUGGER_WORKING_DIRECTORY "${SolutionDir}/res"
+	)
 endif()
 
 SquickOut(${ProjectName} ${ProjectName} ${SolutionDir}/res/Tools ${ProjectName})

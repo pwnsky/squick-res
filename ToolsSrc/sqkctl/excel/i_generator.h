@@ -2,6 +2,7 @@
 
 #include "../files.h"
 #include "config_generator_data.h"
+#include "common/color_cout.hpp"
 
 #if PLATFORM == PLATFORM_WIN
 #include <direct.h>

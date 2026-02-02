@@ -21,7 +21,7 @@ class StructGenerator : public IGenerator {
             const std::string &className = it->first;
             ClassData *pClassDta = it->second;
 
-            std::cout << "save for struct ---> " << className << std::endl;
+            INFO("Save for struct ---> " << className);
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
             std::string fileName = strXMLStructPath + path + ".xml";
@@ -135,11 +135,12 @@ class StructGenerator : public IGenerator {
                 /////////////////////////////////
                 std::string strFileEnd = "</XML>";
                 fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, structWriter);
+                fclose(structWriter);
             } else {
+                std::cout << termcolor::red;
                 std::cout << "save for struct error!!!!!---> " << fileName << std::endl;
             }
-
-            fclose(structWriter);
+            
         }
 
         return false;

@@ -69,6 +69,15 @@ class LuaDataGenerator : public IGenerator {
         return false;
     };
 
+    bool isStartWithNumber(const std::string s)
+    {
+        if (s[0] >= '0' && s[0] <= '9')
+        {
+            return true;
+        }
+        return false;
+    }
+
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
 
         // generate for server
@@ -86,7 +95,7 @@ class LuaDataGenerator : public IGenerator {
                 continue;
             }
 
-            std::cout << "Gen for lua data ---> " << className << std::endl;
+            INFO("Gen for lua data ---> " << className);
 
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
@@ -119,7 +128,10 @@ class LuaDataGenerator : public IGenerator {
 
                     const std::string &strElementName = itElement->first;
                     ClassElement::ElementData *pIniData = itElement->second;
-
+                    if (strElementName.empty() || isStartWithNumber(strElementName))
+                    {
+                        ERROR("Check ID start with number: " << strElementName << " file: " << className);
+                    }
                     std::string strElementData = "\t" + strElementName + " = {\n";
                     for (std::map<std::string, std::string>::iterator itProperty = pIniData->xPropertyList.begin(); itProperty != pIniData->xPropertyList.end();
                          ++itProperty) {
@@ -130,7 +142,14 @@ class LuaDataGenerator : public IGenerator {
                         std::string outValue = "";
                         if (type == "int" || type == "bool" || type == "float" || type == "double" || type == "int64")
                         {
-                            outValue = value;
+                            if (value == "")
+                            {
+                                outValue = "0";
+                                WARN("Check default value not set, ID: " << strElementName << " file: " << className << " col: " << strKey);
+                            }else
+                            {
+                                outValue = value;
+                            }
                         }else
                         {
                             outValue = "\"" + value + "\"";
@@ -145,10 +164,11 @@ class LuaDataGenerator : public IGenerator {
                 std::string strFileEnd = "}\n";
                 strFileEnd += "return " + className;
                 fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, iniWriter);
+                fclose(iniWriter);
             } else {
-                std::cout << "save for ini error!!!!!---> " << fileName << std::endl;
+                ERROR("Save for ini error!!!!!---> " << fileName);
             }
-            fclose(iniWriter);
+            
         }
 
         return false;

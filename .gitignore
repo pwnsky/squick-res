@@ -10,3 +10,4 @@ XlsxXML
 .pytest_cache
 __pycache__
 Proto/msg_id.proto
+ToolsSrc/sqkctl/build

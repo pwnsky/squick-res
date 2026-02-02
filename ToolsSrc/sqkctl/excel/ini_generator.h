@@ -18,7 +18,7 @@ class IniGenerator : public IGenerator {
                 continue;
             }
 
-            std::cout << "save for ini ---> " << className << std::endl;
+            INFO("Save for ini ---> " << className);
 
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
@@ -62,10 +62,11 @@ class IniGenerator : public IGenerator {
 
                 std::string strFileEnd = "</XML>";
                 fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, iniWriter);
+                fclose(iniWriter);
             } else {
-                std::cout << "save for ini error!!!!!---> " << fileName << std::endl;
+                ERROR("Save for ini error!!!!!---> " << fileName);
             }
-            fclose(iniWriter);
+            
         }
 
         return false;

@@ -88,7 +88,7 @@ class LuaGenerator : public IGenerator {
                 const std::string &recordName = itRecord->first;
                 ClassRecord *pClassRecord = itRecord->second;
 
-                std::cout << "save for lua ---> " << className << "::" << recordName << std::endl;
+                INFO("Save for lua ---> " << className << "::" << recordName);
 
                 strRecordInfo += "\t\t" + recordName + "={\n";
                 strRecordInfo += "\t\t\t-- Class name\n\t";

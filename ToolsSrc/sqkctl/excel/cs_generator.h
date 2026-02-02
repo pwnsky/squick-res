@@ -90,7 +90,7 @@ class CSGenerator : public IGenerator {
                 const std::string &recordName = itRecord->first;
                 ClassRecord *pClassRecord = itRecord->second;
 
-                std::cout << "save for cs ---> " << className << "::" << recordName << std::endl;
+                INFO("Save for csharp ---> " << className << "::" << recordName);
 
                 strRecordInfo += "\t\tpublic class " + recordName + "\n\t\t{\n";
                 strRecordInfo += "\t\t\t//Class name\n\t";

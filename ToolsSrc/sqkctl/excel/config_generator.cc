@@ -414,33 +414,33 @@ void ConfigGenerator::PrintData() {
 }
 
 void ConfigGenerator::PrintData(ClassData *data) {
-    std::cout << "------------";
-    std::cout << "Class Name:" << data->xStructData.className << std::endl;
-    std::cout << "File Path:" << data->filePath << std::endl;
-    std::cout << "File Folder:" << data->fileFolder << std::endl;
-    std::cout << "Be Included:" << data->beIncluded << std::endl;
+    INFO("------------");
+    INFO("Class Name:" << data->xStructData.className);
+    INFO("File Path:" << data->filePath);
+    INFO("File Folder:" << data->fileFolder);
+    INFO("Be Included:" << data->beIncluded);
 
-    std::cout << "File Include:" << std::endl;
+    INFO("File Include:");
     for (auto file : data->includes) {
-        std::cout << file << std::endl;
+        INFO("file: "<< file);
     }
 
-    std::cout << "Be Parted:" << data->beParted << std::endl;
+    INFO("Be Parted:");
 
-    std::cout << "File Parents:" << std::endl;
+    INFO("File Parents:");
     for (auto file : data->parents) {
-        std::cout << file << std::endl;
+        INFO("file: " << file);
     }
 
-    std::cout << "File Parts:" << std::endl;
+    INFO("File Parts:");
     for (auto file : data->parts) {
-        std::cout << file << std::endl;
+        INFO("file: " << file);
     }
 
-    std::cout << "Ref:" << data->ref.size() << std::endl;
-    std::cout << "File Ref:" << std::endl;
+    INFO("Ref:" << data->ref.size());
+    INFO("File Ref:");
     for (auto file : data->ref) {
-        std::cout << file << std::endl;
+        INFO("file: " << file);
     }
 }
 

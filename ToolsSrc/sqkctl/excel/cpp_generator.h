@@ -98,7 +98,7 @@ class CPPGenerator : public IGenerator {
                 const std::string &recordName = itRecord->first;
                 ClassRecord *pClassRecord = itRecord->second;
 
-                std::cout << "save for cpp ---> " << className << "::" << recordName << std::endl;
+                INFO("Save for cpp ---> " << className << "::" << recordName);
 
                 strRecordInfo += "\t\tclass " + recordName + "\n\t\t{\n\t\tpublic:\n";
                 strRecordInfo += "\t\t\t//Class name\n\t";
