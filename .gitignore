@@ -11,3 +11,4 @@ XlsxXML
 __pycache__
 Proto/msg_id.proto
 ToolsSrc/sqkctl/build
+Tools/sqkctl.pdb
