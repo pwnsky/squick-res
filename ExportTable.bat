@@ -25,7 +25,6 @@ if "%1"=="no_pause" (
     echo "Copy to server"
     copy XlsxGen\excel.lua ..\src\lua\struct
     copy XlsxGen\excel.h ..\src\struct
-    xcopy /s /e /y XlsxGen\XML XlsxXML
 )else if "%1"=="unreal" (
     echo "Copy to unreal"
     xcopy /s /e /y XlsxGen\Lua ..\Content\Script\Excel

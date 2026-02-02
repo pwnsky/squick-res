@@ -1,8 +1,4 @@
 #pragma once
-
-#if PLATFORM == PLATFORM_WIN
-#include <direct.h>
-#endif
 #include "i_generator.h"
 namespace sqkctl {
 class StructGenerator : public IGenerator {
@@ -16,75 +12,85 @@ class StructGenerator : public IGenerator {
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it) {
             if (it->second->beParted) {
                 continue;
+        }
+
+        const std::string &className = it->first;
+        ClassData *pClassDta = it->second;
+
+        INFO("Save for struct ---> " << className);
+        std::string path = pClassDta->filePath;
+        Files::StringReplace(path, strExcelIniPath, "");
+        std::string fileName = strXMLStructPath + path + ".xml";
+
+        std::ofstream outputFile;
+        OpenFile(fileName, outputFile);
+        std::string strFileHead = "<?xml version='1.0' encoding='utf-8' ?>\n<XML>\n";
+        outputFile << strFileHead;
+        std::string strFilePropertyBegin = "\t<Propertys>\n";
+        outputFile << strFilePropertyBegin;
+        for (std::map<std::string, ClassProperty *>::iterator itProperty = pClassDta->xStructData.xPropertyList.begin();
+            itProperty != pClassDta->xStructData.xPropertyList.end(); ++itProperty) {
+            const std::string &propertyName = itProperty->first;
+            ClassProperty *xPropertyData = itProperty->second;
+
+            std::string strElementData = "\t\t<Property Id=\"" + propertyName + "\" ";
+            for (std::map<std::string, std::string>::iterator itDesc = xPropertyData->descList.begin(); itDesc != xPropertyData->descList.end();
+                 ++itDesc) {
+                const std::string &strKey = itDesc->first;
+                const std::string &value = itDesc->second;
+                strElementData += strKey + "=\"" + value + "\" ";
             }
+            strElementData += "/>\n";
+            outputFile << strElementData;
+        }
 
-            const std::string &className = it->first;
-            ClassData *pClassDta = it->second;
+        std::string strFilePropertyEnd = "\t</Propertys>\n";
+        outputFile << strFilePropertyEnd;
 
-            INFO("Save for struct ---> " << className);
-            std::string path = pClassDta->filePath;
-            Files::StringReplace(path, strExcelIniPath, "");
-            std::string fileName = strXMLStructPath + path + ".xml";
-            std::ofstream outputFile;
-            OpenFile(fileName, outputFile);
-            outputFile << "<?xml version='1.0' encoding='utf-8' ?>\n<XML>\n";
-            outputFile << "\t<Propertys>\n";
+        std::string strFileRecordBegin = "\t<Records>\n";
+        outputFile << strFileRecordBegin;
 
-            for (std::map<std::string, ClassProperty *>::iterator itProperty = pClassDta->xStructData.xPropertyList.begin();
-                 itProperty != pClassDta->xStructData.xPropertyList.end(); ++itProperty) {
-                const std::string &propertyName = itProperty->first;
-                ClassProperty *xPropertyData = itProperty->second;
+        for (std::map<std::string, ClassRecord *>::iterator itRecord = pClassDta->xStructData.xRecordList.begin();
+             itRecord != pClassDta->xStructData.xRecordList.end(); ++itRecord) {
+            const std::string &recordName = itRecord->first;
+            ClassRecord *xRecordData = itRecord->second;
 
-                std::string strElementData = "\t\t<Property Id=\"" + propertyName + "\" ";
-                for (std::map<std::string, std::string>::iterator itDesc = xPropertyData->descList.begin(); itDesc != xPropertyData->descList.end();
-                     ++itDesc) {
-                    const std::string &strKey = itDesc->first;
-                    const std::string &value = itDesc->second;
-                    strElementData += strKey + "=\"" + value + "\" ";
-                }
-                strElementData += "/>\n";
-                outputFile << strElementData;
+            // for desc
+            std::string strElementData = "\t\t<Record Id=\"" + recordName + "\" ";
+            for (std::map<std::string, std::string>::iterator itDesc = xRecordData->descList.begin(); itDesc != xRecordData->descList.end(); ++itDesc) {
+                const std::string &strKey = itDesc->first;
+                const std::string &value = itDesc->second;
+                strElementData += strKey + "=\"" + value + "\"\t ";
             }
+            strElementData += ">\n";
 
-            outputFile << "\t</Propertys>\n";
-            outputFile << "\t<Records>\n";
-
-            for (std::map<std::string, ClassRecord *>::iterator itRecord = pClassDta->xStructData.xRecordList.begin();
-                 itRecord != pClassDta->xStructData.xRecordList.end(); ++itRecord) {
-                const std::string &recordName = itRecord->first;
-                ClassRecord *xRecordData = itRecord->second;
-
-                // for desc
-                std::string strElementData = "\t\t<Record Id=\"" + recordName + "\" ";
-                for (std::map<std::string, std::string>::iterator itDesc = xRecordData->descList.begin(); itDesc != xRecordData->descList.end(); ++itDesc) {
+            // for col list
+            for (int i = 0; i < xRecordData->colList.size(); ++i) {
+                for (std::map<std::string, ClassRecord::RecordColDesc *>::iterator itDesc = xRecordData->colList.begin();
+                     itDesc != xRecordData->colList.end(); ++itDesc) {
                     const std::string &strKey = itDesc->first;
-                    const std::string &value = itDesc->second;
-                    strElementData += strKey + "=\"" + value + "\"\t ";
-                }
-                strElementData += ">\n";
+                    const ClassRecord::RecordColDesc *pRecordColDesc = itDesc->second;
 
-                // for col list
-                for (int i = 0; i < xRecordData->colList.size(); ++i) {
-                    for (std::map<std::string, ClassRecord::RecordColDesc *>::iterator itDesc = xRecordData->colList.begin();
-                         itDesc != xRecordData->colList.end(); ++itDesc) {
-                        const std::string &strKey = itDesc->first;
-                        const ClassRecord::RecordColDesc *pRecordColDesc = itDesc->second;
-
-                        if (pRecordColDesc->index == i) {
-                            strElementData += "\t\t\t<Col Type =\"" + pRecordColDesc->type + "\"\tTag=\"" + strKey + "\"/>";
-                            if (!pRecordColDesc->desc.empty()) {
-                                strElementData += "<!--- " + pRecordColDesc->desc + "-->\n";
-                            } else {
-                                strElementData += "\n";
-                            }
+                    if (pRecordColDesc->index == i) {
+                        strElementData += "\t\t\t<Col Type =\"" + pRecordColDesc->type + "\"\tTag=\"" + strKey + "\"/>";
+                        if (!pRecordColDesc->desc.empty()) {
+                            strElementData += "<!--- " + pRecordColDesc->desc + "-->\n";
+                        } else {
+                            strElementData += "\n";
                         }
                     }
                 }
-                outputFile << "\t\t</Record>\n";
             }
 
-            outputFile << "\t</Records>\n";
-            outputFile << "\t<Includes>\n";
+                strElementData += "\t\t</Record>\n";
+                outputFile << strElementData;
+            }
+
+            std::string strFileRecordEnd = "\t</Records>\n";
+            outputFile << strFileRecordEnd;
+
+            std::string strFileIncludeBegin = "\t<Includes>\n";
+            outputFile << strFileIncludeBegin;
 
             std::string strFileIncludeBody;
             for (auto item : pClassDta->includes) {
@@ -97,9 +103,14 @@ class StructGenerator : public IGenerator {
                 strFileIncludeBody += "\t\t<Include Id=\"" + fileName + "\" />";
                 strFileIncludeBody += "\n";
             }
+
             outputFile << strFileIncludeBody;
-            outputFile << "\t</Includes>\n";
-            outputFile << "</XML>";
+
+            std::string strFileIncludeEnd = "\t</Includes>\n";
+            outputFile << strFileIncludeEnd;
+            
+            std::string strFileEnd = "</XML>";
+            outputFile << strFileEnd;
             outputFile.close();
         }
 

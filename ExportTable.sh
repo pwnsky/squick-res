@@ -18,5 +18,4 @@ if [[ "$1" == "server" ]];then
     echo "Copy to server"
     cp -a $export_path/excel.h ../src/struct
     cp -a $export_path/excel.lua ../src/lua/struct
-    cp -r $export_path/XML $runtime_config_path
 fi
