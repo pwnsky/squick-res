@@ -7,8 +7,9 @@ class CSGenerator : public IGenerator {
     CSGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        FILE *csWriter = fopen((outPath + "/XlsxCode/Excel.cs").c_str(), "w");
-
+        std::string fileName = outPath + "/Excel.cs";
+        std::ofstream outputFile;
+        OpenFile(fileName, outputFile);
         std::string strFileHead = "// -------------------------------------------------------------------------\n";
         strFileHead = strFileHead + "//    @FileName         :    Excel.cs\n" + "//    @Author           :    I0gan\n" +
                       "//    @Module           :    Excel\n" + "// -------------------------------------------------------------------------\n\n" +
@@ -19,8 +20,7 @@ class CSGenerator : public IGenerator {
                       //+ "using System.Threading.Tasks;\n\n"
                       + "namespace Excel\n{\n";
 
-        fwrite(strFileHead.c_str(), strFileHead.length(), 1, csWriter);
-        /////////////////////////////////////////////////////
+        outputFile << strFileHead;
 
         ClassData *pBaseObject = classData.at("IObject");
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it) {
@@ -79,7 +79,7 @@ class CSGenerator : public IGenerator {
                 }
             }
 
-            fwrite(strPropertyInfo.c_str(), strPropertyInfo.length(), 1, csWriter);
+            outputFile << strPropertyInfo;
 
             // record
             std::string strRecordInfo = "";
@@ -146,20 +146,14 @@ class CSGenerator : public IGenerator {
                 }
             }
 
-            fwrite(strRecordInfo.c_str(), strRecordInfo.length(), 1, csWriter);
-
-            std::string strHppEnumInfo = "";
-
+            outputFile << strRecordInfo;
             std::string strClassEnd;
             strClassEnd += "\n\t}\n";
-
-            fwrite(strClassEnd.c_str(), strClassEnd.length(), 1, csWriter);
+            outputFile << strClassEnd;
         }
 
-        std::string strFileEnd = "\n}";
-        fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, csWriter);
-        fclose(csWriter);
-
+        outputFile << "\n}";
+        outputFile.close();
         return false;
     }
 };

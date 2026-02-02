@@ -8,8 +8,9 @@ class CPPGenerator : public IGenerator {
     CPPGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        FILE *hppWriter = fopen((outPath + "/XlsxCode/excel.h").c_str(), "w");
-
+        std::string fileName = outPath + "/excel.h";
+        std::ofstream outputFile;
+        OpenFile(fileName, outputFile);
         std::string strFileHead;
 
         strFileHead = strFileHead + "// -------------------------------------------------------------------------\n" +
@@ -17,8 +18,7 @@ class CPPGenerator : public IGenerator {
                       "// -------------------------------------------------------------------------\n\n" + "#ifndef SQUICK_PR_NAME_HPP\n" +
                       "#define SQUICK_PR_NAME_HPP\n\n" + "#include <string>\n" + "namespace excel\n{\n";
 
-        fwrite(strFileHead.c_str(), strFileHead.length(), 1, hppWriter);
-        /////////////////////////////////////////////////////
+        outputFile << strFileHead;
 
         ClassData *pBaseObject = classData.at("IObject");
         std::string instanceField = "\n";
@@ -87,7 +87,7 @@ class CPPGenerator : public IGenerator {
                 }
             }
 
-            fwrite(strPropertyInfo.c_str(), strPropertyInfo.length(), 1, hppWriter);
+            outputFile << strPropertyInfo;
 
             // record
             std::string strRecordInfo = "";
@@ -159,21 +159,18 @@ class CPPGenerator : public IGenerator {
                 }
             }
 
-            fwrite(strRecordInfo.c_str(), strRecordInfo.length(), 1, hppWriter);
+            outputFile << strRecordInfo;
 
             std::string strHppEnumInfo = "";
 
             std::string strClassEnd;
             strClassEnd += "\n\t};\n";
 
-            fwrite(strClassEnd.c_str(), strClassEnd.length(), 1, hppWriter);
+             outputFile << strClassEnd;
         }
 
-        // fwrite(instanceField.c_str(), instanceField.length(), 1, hppWriter);
-
         std::string strFileEnd = "\n}\n#endif";
-        fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, hppWriter);
-        fclose(hppWriter);
+        outputFile << strFileEnd;
 
         return false;
     }

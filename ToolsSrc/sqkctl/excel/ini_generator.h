@@ -23,50 +23,31 @@ class IniGenerator : public IGenerator {
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
             std::string fileName = strXMLIniPath + path + ".xml";
-
-            FILE *iniWriter = fopen(fileName.c_str(), "w+");
-            if (iniWriter == nullptr) {
-                std::string folder = pClassDta->fileFolder;
-                Files::StringReplace(folder, strExcelIniPath, "");
-                std::string fileFolder = strXMLIniPath + folder;
-
-#if PLATFORM == PLATFORM_WIN
-                mkdir(fileFolder.c_str());
-#else
-                mkdir(fileFolder.c_str(), 0777);
-#endif
-
-                iniWriter = fopen(fileName.c_str(), "w+");
-            }
-            if (iniWriter) {
-                std::string strFileHead = "<?xml version='1.0' encoding='utf-8' ?>\n<XML>\n";
-                fwrite(strFileHead.c_str(), strFileHead.length(), 1, iniWriter);
-
-                for (std::map<std::string, ClassElement::ElementData *>::iterator itElement = pClassDta->xIniData.xElementList.begin();
-                     itElement != pClassDta->xIniData.xElementList.end(); ++itElement) {
-
-                    const std::string &strElementName = itElement->first;
-                    ClassElement::ElementData *pIniData = itElement->second;
-
-                    std::string strElementData = "\t<Object Id=\"" + strElementName + "\" ";
-                    for (std::map<std::string, std::string>::iterator itProperty = pIniData->xPropertyList.begin(); itProperty != pIniData->xPropertyList.end();
-                         ++itProperty) {
-                        const std::string &strKey = itProperty->first;
-                        const std::string &value = itProperty->second;
-                        strElementData += strKey + "=\"" + value + "\" ";
-                    }
-                    strElementData += "/>\n";
-
-                    fwrite(strElementData.c_str(), strElementData.length(), 1, iniWriter);
-                }
-
-                std::string strFileEnd = "</XML>";
-                fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, iniWriter);
-                fclose(iniWriter);
-            } else {
-                ERROR("Save for ini error!!!!!---> " << fileName);
-            }
+            std::ofstream outputFile;
+            OpenFile(fileName, outputFile);
             
+            std::string strFileHead = "<?xml version='1.0' encoding='utf-8' ?>\n<XML>\n";
+            outputFile << strFileHead;
+            for (std::map<std::string, ClassElement::ElementData *>::iterator itElement = pClassDta->xIniData.xElementList.begin();
+                 itElement != pClassDta->xIniData.xElementList.end(); ++itElement) {
+
+                const std::string &strElementName = itElement->first;
+                ClassElement::ElementData *pIniData = itElement->second;
+
+                std::string strElementData = "\t<Object Id=\"" + strElementName + "\" ";
+                for (std::map<std::string, std::string>::iterator itProperty = pIniData->xPropertyList.begin(); itProperty != pIniData->xPropertyList.end();
+                     ++itProperty) {
+                    const std::string &strKey = itProperty->first;
+                    const std::string &value = itProperty->second;
+                    strElementData += strKey + "=\"" + value + "\" ";
+                }
+                strElementData += "/>\n";
+                outputFile << strElementData;
+            }
+
+            std::string strFileEnd = "</XML>";
+            outputFile << strFileEnd;
+            outputFile.close();
         }
 
         return false;

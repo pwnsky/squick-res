@@ -21,8 +21,8 @@ ConfigGenerator::ConfigGenerator(const std::string &excelPath, const std::string
     mxGenerators.push_back(new LuaDataGenerator(excelPath, outPath));
 
     strExcelIniPath = excelPath;
-    strXMLStructPath = outPath + "/XlsxXML/Struct";
-    strXMLIniPath = outPath + "/XlsxXML/Ini";
+    strXMLStructPath = outPath + "/XML/Struct";
+    strXMLIniPath = outPath + "/XML/Ini";
     this->outPath = outPath;
 }
 

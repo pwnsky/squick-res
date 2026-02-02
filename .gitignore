@@ -4,7 +4,7 @@ Proto/msg_id.proto
 Tools/sqkctl
 Tools/pycli/proto
 Tools/pycli/login.cookie
-XlsxCode
+XlsxGen
 XlsxXML
 *__pycache__*
 .pytest_cache

@@ -5,15 +5,10 @@ rem Date  : 2022-11-27
 rem Github: https://github.com/pwnsky/squick
 rem Description: Generate configuration files
 
-del /f /q /s  XlsxCode\*
-del /f /q /s  XlsxXML\*
+del /f /q /s  XlsxGen\*
 
-set ExportPath=.\
+set ExportPath=.\XlsxGen
 set XlsxPath=.\Xlsx
-
-mkdir %ExportPath%\XlsxCode
-mkdir %ExportPath%\XlsxXML\Struct
-mkdir %ExportPath%\XlsxXML\Ini
 
 .\Tools\sqkctl excel %XlsxPath% %ExportPath%
 if %errorlevel% equ 0 (
@@ -28,11 +23,12 @@ if "%1"=="no_pause" (
     echo continue
 )else if "%1"=="server" (
     echo "Copy to server"
-    copy XlsxCode\excel.lua ..\src\lua\struct
-    copy XlsxCode\excel.h ..\src\struct
+    copy XlsxGen\excel.lua ..\src\lua\struct
+    copy XlsxGen\excel.h ..\src\struct
+    xcopy /s /e /y XlsxGen\XML XlsxXML
 )else if "%1"=="unreal" (
     echo "Copy to unreal"
-    xcopy /s /e /y XlsxCode\Lua ..\Content\Script\Excel
+    xcopy /s /e /y XlsxGen\Lua ..\Content\Script\Excel
     del /f /q /s  ..\Content\Script\Excel\Root.lua
 )else (
     pause

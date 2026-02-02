@@ -8,13 +8,11 @@ class LogicClassGenerator : public IGenerator {
     LogicClassGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        std::string fileName = outPath + "/XlsxXML/Root.xml";
+        std::string fileName = outPath + "/XML/Root.xml";
+        std::ofstream outputFile;
+        OpenFile(fileName, outputFile);
 
-        FILE *iniWriter = fopen(fileName.c_str(), "w");
-
-        std::string strFileHead = "<?xml version='1.0' encoding='utf-8' ?>\n<XML>\n";
-        fwrite(strFileHead.c_str(), strFileHead.length(), 1, iniWriter);
-
+        outputFile << "<?xml version='1.0' encoding='utf-8' ?>\n<XML>\n";
         ClassData *pBaseObject = classData.at("IObject");
 
         std::string strElementData;
@@ -47,11 +45,9 @@ class LogicClassGenerator : public IGenerator {
         }
 
         strElementData += "\t</Class>\n";
-        fwrite(strElementData.c_str(), strElementData.length(), 1, iniWriter);
-
-        std::string strFileEnd = "</XML>";
-        fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, iniWriter);
-        fclose(iniWriter);
+        outputFile << strElementData;
+        outputFile << "</XML>";
+        outputFile.close();
 
         return false;
     }

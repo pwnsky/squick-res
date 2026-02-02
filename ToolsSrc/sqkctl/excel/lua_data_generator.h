@@ -11,22 +11,14 @@ class LuaDataGenerator : public IGenerator {
     bool GenerateRoot(const std::map<std::string, ClassData *> &classData, bool isForUnreal = false) {
         std::string fileName;
         if (isForUnreal) {
-            fileName = outPath + "/XlsxCode/Lua/Init.lua";
+            fileName = outPath + "/Lua/Init.lua";
         }
         else {
-            fileName = outPath + "/XlsxCode/Lua/Root.lua";
+            fileName = outPath + "/Lua/Root.lua";
         }
-        std::string rootOutPath = outPath + "/XlsxCode/Lua";
-#if PLATFORM == PLATFORM_WIN
-        mkdir(rootOutPath.c_str());
-#else
-        mkdir(rootOutPath.c_str(), 0777);
-#endif
-        FILE *iniWriter = fopen(fileName.c_str(), "w");
-
-        std::string strFileHead = "-- don't edit it, generated from xlsx files by tools\n";
-        fwrite(strFileHead.c_str(), strFileHead.length(), 1, iniWriter);
-
+        std::ofstream outputFile;
+        OpenFile(fileName, outputFile);
+        outputFile << "-- don't edit it, generated from xlsx files by tools\n";
         ClassData *pBaseObject = classData.at("IObject");
         
         std::string strElementData = "Excel = {}\n";
@@ -64,8 +56,8 @@ class LuaDataGenerator : public IGenerator {
 
             strElementData += " = require(\"" + preFixPath + path + "\")\n";
         }
-        fwrite(strElementData.c_str(), strElementData.length(), 1, iniWriter);
-        fclose(iniWriter);
+        outputFile << strElementData;
+        outputFile.close();
         return false;
     };
 
@@ -100,77 +92,48 @@ class LuaDataGenerator : public IGenerator {
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelIniPath, "");
             std::string fileName = strLuaDataPath + path + ".lua";
+            std::ofstream outputFile;
+            OpenFile(fileName, outputFile);
+            outputFile << "-- don't edit it, generated from xlsx files by tools\n";
+            outputFile << "local " + className + " = {\n";
 
-            FILE *iniWriter = fopen(fileName.c_str(), "w+");
-            if (iniWriter == nullptr) {
-                std::string folder = pClassDta->fileFolder;
-                Files::StringReplace(folder, strExcelIniPath, "");
-                std::string fileFolder = strLuaDataPath + folder;
-
-#if PLATFORM == PLATFORM_WIN
-                mkdir(fileFolder.c_str());
-#else
-                mkdir(fileFolder.c_str(), 0777);
-#endif
-
-                iniWriter = fopen(fileName.c_str(), "w+");
-            }
-            if (iniWriter) {
-                std::string strFileHead = "-- don't edit it, generated from xlsx files by tools\n";
-                fwrite(strFileHead.c_str(), strFileHead.length(), 1, iniWriter);
-
-
-                std::string classNameBegin = "local " + className + " = {\n";
-                fwrite(classNameBegin.c_str(), classNameBegin.length(), 1, iniWriter);
-
-                for (std::map<std::string, ClassElement::ElementData *>::iterator itElement = pClassDta->xIniData.xElementList.begin();
-                     itElement != pClassDta->xIniData.xElementList.end(); ++itElement) {
-
-                    const std::string &strElementName = itElement->first;
-                    ClassElement::ElementData *pIniData = itElement->second;
-                    if (strElementName.empty() || isStartWithNumber(strElementName))
-                    {
-                        ERROR("Check ID start with number: " << strElementName << " file: " << className);
-                    }
-                    std::string strElementData = "\t" + strElementName + " = {\n";
-                    for (std::map<std::string, std::string>::iterator itProperty = pIniData->xPropertyList.begin(); itProperty != pIniData->xPropertyList.end();
-                         ++itProperty) {
-                        const std::string &strKey = itProperty->first;
-                        const std::string &value = itProperty->second;
-                        const std::string &type = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Type"];
-                        const std::string &desc = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Desc"];
-                        std::string outValue = "";
-                        if (type == "int" || type == "bool" || type == "float" || type == "double" || type == "int64")
-                        {
-                            if (value == "")
-                            {
-                                outValue = "0";
-                                WARN("Check default value not set, ID: " << strElementName << " file: " << className << " col: " << strKey);
-                            }else
-                            {
-                                outValue = value;
-                            }
-                        }else
-                        {
-                            outValue = "\"" + value + "\"";
-                        }
-                        strElementData += "\t\t" + strKey + "=" + outValue + ",\n";
-                    }
-                    strElementData += "\t},\n";
-
-                    fwrite(strElementData.c_str(), strElementData.length(), 1, iniWriter);
+            for (std::map<std::string, ClassElement::ElementData *>::iterator itElement = pClassDta->xIniData.xElementList.begin();
+                itElement != pClassDta->xIniData.xElementList.end(); ++itElement) {
+                const std::string &strElementName = itElement->first;
+                ClassElement::ElementData *pIniData = itElement->second;
+                if (strElementName.empty() || isStartWithNumber(strElementName)) {
+                    ERROR("Check ID start with number: " << strElementName << " file: " << className);
                 }
-
-                std::string strFileEnd = "}\n";
-                strFileEnd += "return " + className;
-                fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, iniWriter);
-                fclose(iniWriter);
-            } else {
-                ERROR("Save for ini error!!!!!---> " << fileName);
+                std::string strElementData = "\t" + strElementName + " = {\n";
+                for (std::map<std::string, std::string>::iterator itProperty = pIniData->xPropertyList.begin(); itProperty != pIniData->xPropertyList.end();
+                     ++itProperty) {
+                    const std::string &strKey = itProperty->first;
+                    const std::string &value = itProperty->second;
+                    const std::string &type = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Type"];
+                    const std::string &desc = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Desc"];
+                    std::string outValue = "";
+                    if (type == "int" || type == "bool" || type == "float" || type == "double" || type == "int64") {
+                        if (value == "") {
+                            outValue = "0";
+                            WARN("Check default value not set, ID: " << strElementName << " file: " << className << " col: " << strKey);
+                        }else {
+                            outValue = value;
+                        }
+                    } else {
+                        outValue = "\"" + value + "\"";
+                    }
+                    strElementData += "\t\t" + strKey + "=" + outValue + ",\n";
+                }
+                strElementData += "\t},\n";
+                outputFile << strElementData;
             }
             
+            std::string strFileEnd = "}\n";
+            strFileEnd += "return " + className;
+            outputFile << strFileEnd;
+            outputFile.close();
         }
-
+        
         return false;
     }
 };

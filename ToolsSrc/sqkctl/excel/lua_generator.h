@@ -8,7 +8,7 @@ class LuaGenerator : public IGenerator {
     LuaGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
-        FILE *hppWriter = fopen((outPath + "/XlsxCode/excel.lua").c_str(), "w");
+        string fileName = outPath + "/excel.lua";
 
         std::string strFileHead;
 
@@ -20,7 +20,9 @@ class LuaGenerator : public IGenerator {
                       "-- Do not edit it, generated from excel files by sqkctl tools\n"
                       "Excel = {\n";
 
-        fwrite(strFileHead.c_str(), strFileHead.length(), 1, hppWriter);
+        std::ofstream outputFile;
+        OpenFile(fileName, outputFile);
+        outputFile << strFileHead;
 
         ClassData *pBaseObject = classData.at("IObject");
         for (std::map<std::string, ClassData *>::const_iterator it = classData.begin(); it != classData.end(); ++it) {
@@ -77,7 +79,7 @@ class LuaGenerator : public IGenerator {
                 }
             }
 
-            fwrite(strPropertyInfo.c_str(), strPropertyInfo.length(), 1, hppWriter);
+            outputFile << strPropertyInfo;
 
             // record
             std::string strRecordInfo = "";
@@ -137,14 +139,14 @@ class LuaGenerator : public IGenerator {
                     strRecordInfo += "\n\t\t};\n";
                 }
             }
-            fwrite(strRecordInfo.c_str(), strRecordInfo.length(), 1, hppWriter);
+            outputFile << strRecordInfo.c_str();
             std::string strClassEnd;
             strClassEnd += "\n\t},\n";
-            fwrite(strClassEnd.c_str(), strClassEnd.length(), 1, hppWriter);
+            outputFile << strClassEnd;
         }
         std::string strFileEnd = "\n}";
-        fwrite(strFileEnd.c_str(), strFileEnd.length(), 1, hppWriter);
-        fclose(hppWriter);
+        outputFile << strFileEnd;
+        outputFile.close();
         return false;
     }
 };
