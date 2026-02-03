@@ -25,7 +25,7 @@ class LuaDataGenerator : public IGenerator {
         strElementData += "Excel[\"" + pBaseObject->xStructData.className + "\"] = ";
 
         std::string path = pBaseObject->filePath;
-        Files::StringReplace(path, strExcelIniPath, "");
+        Files::StringReplace(path, strExcelDataPath, "");
         string preFixPath = "";
         if (isForUnreal)
         {
@@ -52,7 +52,7 @@ class LuaDataGenerator : public IGenerator {
             strElementData += "Excel[\"" + pClassDta->xStructData.className + "\"]";
 
             std::string path = pClassDta->filePath;
-            Files::StringReplace(path, strExcelIniPath, "");
+            Files::StringReplace(path, strExcelDataPath, "");
 
             strElementData += " = require(\"" + preFixPath + path + "\")\n";
         }
@@ -90,7 +90,7 @@ class LuaDataGenerator : public IGenerator {
             INFO("Gen for lua data ---> " << className);
 
             std::string path = pClassDta->filePath;
-            Files::StringReplace(path, strExcelIniPath, "");
+            Files::StringReplace(path, strExcelDataPath, "");
             std::string fileName = strLuaDataPath + path + ".lua";
             std::ofstream outputFile;
             OpenFile(fileName, outputFile);

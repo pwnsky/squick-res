@@ -14,24 +14,24 @@ Test::Test() {}
 ConfigGenerator::ConfigGenerator(const std::string &excelPath, const std::string &outPath) {
     mxGenerators.push_back(new CPPGenerator(excelPath, outPath));
     mxGenerators.push_back(new CSGenerator(excelPath, outPath));
-    mxGenerators.push_back(new IniGenerator(excelPath, outPath));
     mxGenerators.push_back(new LogicClassGenerator(excelPath, outPath));
-    mxGenerators.push_back(new StructGenerator(excelPath, outPath));
+    mxGenerators.push_back(new XMLDataGenerator(excelPath, outPath));
+    mxGenerators.push_back(new XMLStructGenerator(excelPath, outPath));
     mxGenerators.push_back(new LuaGenerator(excelPath, outPath));
     mxGenerators.push_back(new LuaDataGenerator(excelPath, outPath));
 
-    strExcelIniPath = excelPath;
+    strExcelDataPath = excelPath;
     strXMLStructPath = outPath + "/XML/Struct";
-    strXMLIniPath = outPath + "/XML/Ini";
+    strXMLDataPath = outPath + "/XML/Ini";
     this->outPath = outPath;
 }
 
 ConfigGenerator::~ConfigGenerator() {}
 
 bool ConfigGenerator::LoadDataFromExcel() {
-    LoadDataFromExcel(strExcelIniPath + "/IObject.xlsx", "IObject");
+    LoadDataFromExcel(strExcelDataPath + "/IObject.xlsx", "IObject");
 
-    auto fileList = Files::GetFileListInFolder(strExcelIniPath, 1);
+    auto fileList = Files::GetFileListInFolder(strExcelDataPath, 1);
 
     ///////////////////////////////////
 
@@ -61,7 +61,7 @@ bool ConfigGenerator::LoadDataFromExcel() {
         }
     }
 
-    // auto sideFolderList = GetFolderListInFolder(strExcelIniPath);
+    // auto sideFolderList = GetFolderListInFolder(strExcelDataPath);
 
     ProcessParts();
     ProcessIncludeFiles();
@@ -76,7 +76,7 @@ bool ConfigGenerator::LoadDataFromExcel(const std::string &filePath, const std::
         return false;
     }
 
-    std::cout << filePath << std::endl;
+    INFO("Load excel: " << filePath);
 
     ClassData *pClassData = new ClassData();
     pClassData->xStructData.className = fileName;
@@ -92,7 +92,7 @@ bool ConfigGenerator::LoadDataFromExcel(const std::string &filePath, const std::
 
     mini_excel_reader::ExcelFile *xExcel = new mini_excel_reader::ExcelFile();
     if (!xExcel->open(filePath.c_str())) {
-        std::cout << "can't open" << filePath << std::endl;
+        ERROR("can't open" << filePath);
         return false;
     }
 
@@ -129,7 +129,7 @@ bool ConfigGenerator::LoadDataFromExcel(const std::string &filePath, const std::
 bool ConfigGenerator::LoadIncludeExcel(ClassData *pClassData, const std::string &strFile, const std::string &fileName) {
     mini_excel_reader::ExcelFile *xExcel = new mini_excel_reader::ExcelFile();
     if (!xExcel->open(strFile.c_str())) {
-        std::cout << "can't open" << strFile << std::endl;
+        ERROR("Can't open" << strFile);
         return false;
     }
 
@@ -159,8 +159,7 @@ bool ConfigGenerator::LoadDataFromExcel(mini_excel_reader::Sheet &sheet, ClassDa
     } else if (strSheetName.find("ref") != std::string::npos) {
         LoadDataAndProcessRef(sheet, pClassData);
     } else {
-        std::cout << pClassData->xStructData.className << " " << strSheetName << std::endl;
-        assert(0);
+        ERROR("Not include " << pClassData->xStructData.className << " " << strSheetName);
     }
 
     return true;

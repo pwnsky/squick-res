@@ -17,9 +17,9 @@ class IGenerator {
     void SetPath(const std::string &excelPath, const std::string &outPath) {
         this->outPath = outPath;
         strXMLStructPath = outPath + "/XML/Struct";
-        strXMLIniPath = outPath + "/XML/Ini";
+        strXMLDataPath = outPath + "/XML/Data";
         strLuaDataPath = outPath + "/Lua/Data";
-        strExcelIniPath = excelPath;
+        strExcelDataPath = excelPath;
     }
 
     bool OpenFile(const std::string& file_path, std::ofstream& file, 
@@ -50,9 +50,9 @@ class IGenerator {
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) = 0;
 
-    std::string strExcelIniPath;
+    std::string strExcelDataPath;
     std::string strXMLStructPath;
-    std::string strXMLIniPath;
+    std::string strXMLDataPath;
     std::string strLuaDataPath;
     std::string outPath;
 };

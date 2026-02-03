@@ -2,10 +2,10 @@
 
 #include "cpp_generator.h"
 #include "cs_generator.h"
-#include "ini_generator.h"
+#include "xml_data_generator.h"
 #include "logic_class_generator.h"
 #include "lua_generator.h"
-#include "struct_generator.h"
+#include "xml_struct_generator.h"
 #include "lua_data_generator.h"
 
 #include <core/platform.h>
@@ -54,9 +54,9 @@ class ConfigGenerator {
     const int nRecordDescHeight = 2; // record line
 
     std::string outPath;
-    std::string strExcelIniPath;  // = "../excel/";
+    std::string strExcelDataPath;  // = "../excel/";
     std::string strXMLStructPath; // = "../struct/";
-    std::string strXMLIniPath;    // = "../ini/";
+    std::string strXMLDataPath;    // = "../ini/";
 
     std::map<std::string, ClassData *> mxClassData;
     std::vector<IGenerator *> mxGenerators;

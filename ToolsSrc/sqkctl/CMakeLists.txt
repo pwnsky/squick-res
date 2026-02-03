@@ -40,39 +40,6 @@ file(GLOB sqkctl_excel_h ./excel/*.h)
 source_group("excel" FILES ${sqkctl_excel_cc})
 source_group("excel" FILES ${sqkctl_excel_h})
 
-
-file(GLOB sqkctl_init_cc ./init/*.cc)
-file(GLOB sqkctl_init_h ./init/*.h)
-source_group("init" FILES ${sqkctl_init_cc})
-source_group("init" FILES ${sqkctl_init_h})
-
-file(GLOB sqkctl_diff_cc ./diff/*.cc)
-file(GLOB sqkctl_diff_h ./diff/*.h)
-source_group("diff" FILES ${sqkctl_diff_cc})
-source_group("diff" FILES ${sqkctl_diff_h})
-
-file(GLOB sqkctl_add_cc ./add/*.cc)
-file(GLOB sqkctl_add_h ./add/*.h)
-source_group("add" FILES ${sqkctl_add_cc})
-source_group("add" FILES ${sqkctl_add_h})
-
-file(GLOB sqkctl_patch_cc ./patch/*.cc)
-file(GLOB sqkctl_patch_h ./patch/*.h)
-source_group("patch" FILES ${sqkctl_patch_cc})
-source_group("patch" FILES ${sqkctl_patch_h})
-
-
-file(GLOB sqkctl_update_cc ./update/*.cc)
-file(GLOB sqkctl_update_h ./update/*.h)
-source_group("update" FILES ${sqkctl_update_cc})
-source_group("update" FILES ${sqkctl_update_h})
-
-file(GLOB sqkctl_pull_cc ./pull/*.cc)
-file(GLOB sqkctl_pull_h ./pull/*.h)
-source_group("pull" FILES ${sqkctl_pull_cc})
-source_group("pull" FILES ${sqkctl_pull_h})
-
-
 add_executable(${ProjectName}
 	${sqkctl_cc}
 	${sqkctl_h}
@@ -83,18 +50,6 @@ add_executable(${ProjectName}
 	${sqkctl_excel_minizip_h}
 	${sqkctl_excel_zlib_c} 
 	${sqkctl_excel_zlib_h}
-
-	${sqkctl_init_h}
-	${sqkctl_init_cc}
-
-	${sqkctl_diff_h}
-	${sqkctl_diff_cc}
-
-	${sqkctl_add_h}
-	${sqkctl_add_cc}
-
-	${sqkctl_patch_h}
-	${sqkctl_patch_cc}
 	
 	${sqkctl_third_party_common_hpp}
 	)

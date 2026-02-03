@@ -2,11 +2,6 @@
 #include <chrono>
 #include <iostream>
 #include <string>
-
-#include "add/add.h"
-#include "diff/diff.h"
-#include "init/init.h"
-#include "patch/patch.h"
 #include <core/platform.h>
 
 using namespace sqkctl;
@@ -14,15 +9,9 @@ using namespace sqkctl;
 void help() {
     std::cout << "Usague: sqkctl [cmd] [arg1] [arg2] ...\n"
               << "     excel:  \n"
-              << "     init \n"
-              << "     diff \n"
-              << "     add \n"
-              << "     patch \n"
-              << "     pull \n"
-              << "     update \n"
               << "     version \n"
               << "  Examples: \n"
-              << "  sqkctl excel ../resource/excel ../config \n";
+              << "  sqkctl excel ./Xlsx ./XlsxGen \n";
 }
 
 int main(int argc, const char *argv[]) {
@@ -40,8 +29,8 @@ int main(int argc, const char *argv[]) {
         }
         std::string excelPath = argv[2];
         std::string outPath = argv[3];
-        std::cout << "Excel path: " << excelPath << std::endl;
-        std::cout << "Out path: " << outPath << std::endl;
+        INFO("Excel path: " << excelPath);
+        INFO("Out path: " << outPath);
         auto t1 = SquickGetTimeMS();
         Files::StringReplace(excelPath, "\\", "/");
         Files::StringReplace(excelPath, "//", "/");
@@ -50,31 +39,15 @@ int main(int argc, const char *argv[]) {
         ConfigGenerator fp(excelPath, outPath);
         fp.SetUTF8(false); // set it true to convert UTF8 to GBK which is to show Chinese words in Squick
         fp.LoadDataFromExcel();
-        fp.PrintData();
+        //fp.PrintData();
         fp.GenerateData();
         auto t2 = SquickGetTimeMS();
-        std::cout << "Total costed time: " << (t2 - t1) << " ms" << std::endl;
-    } else if (cmd == "init") {
-        init::Init i;
-        i.Exec();
-    } else if (cmd == "diff") {
-        diff::Diff d;
-        d.Exec();
-    } else if (cmd == "update") {
-
+        INFO("Total costed time: " << (t2 - t1) << " ms");
     } else if (cmd == "version") {
-
-    } else if (cmd == "add") {
-        add::Add a;
-        a.Exec();
-    } else if (cmd == "patch") {
-        patch::Patch p;
-        p.Exec();
-    } else if (cmd == "pull") {
 
     } else {
         help();
     }
-    std::cout << "sqkctl exit 0\n";
+    INFO("sqkctl exit 0");
     return 0;
 }

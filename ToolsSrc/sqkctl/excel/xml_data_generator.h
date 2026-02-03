@@ -4,9 +4,9 @@
 #include "i_generator.h"
 
 namespace sqkctl {
-class IniGenerator : public IGenerator {
+class XMLDataGenerator : public IGenerator {
   public:
-    IniGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
+    XMLDataGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
         ClassData *pBaseObject = classData.at("IObject");
@@ -21,8 +21,8 @@ class IniGenerator : public IGenerator {
             INFO("Save for ini ---> " << className);
 
             std::string path = pClassDta->filePath;
-            Files::StringReplace(path, strExcelIniPath, "");
-            std::string fileName = strXMLIniPath + path + ".xml";
+            Files::StringReplace(path, strExcelDataPath, "");
+            std::string fileName = strXMLDataPath + path + ".xml";
             std::ofstream outputFile;
             OpenFile(fileName, outputFile);
             

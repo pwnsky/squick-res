@@ -1,10 +1,10 @@
 #pragma once
 #include "i_generator.h"
 namespace sqkctl {
-class StructGenerator : public IGenerator {
+class XMLStructGenerator : public IGenerator {
 
   public:
-    StructGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
+    XMLStructGenerator(const std::string &excelPath, const std::string &outPath) { SetPath(excelPath, outPath); }
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
         ClassData *pBaseObject = classData.at("IObject");
@@ -19,7 +19,7 @@ class StructGenerator : public IGenerator {
 
         INFO("Save for struct ---> " << className);
         std::string path = pClassDta->filePath;
-        Files::StringReplace(path, strExcelIniPath, "");
+        Files::StringReplace(path, strExcelDataPath, "");
         std::string fileName = strXMLStructPath + path + ".xml";
 
         std::ofstream outputFile;
@@ -97,7 +97,7 @@ class StructGenerator : public IGenerator {
                 auto includeClass = classData.at(item);
 
                 std::string path = includeClass->filePath;
-                Files::StringReplace(path, strExcelIniPath, "");
+                Files::StringReplace(path, strExcelDataPath, "");
                 std::string fileName = path + ".xml";
 
                 strFileIncludeBody += "\t\t<Include Id=\"" + fileName + "\" />";
