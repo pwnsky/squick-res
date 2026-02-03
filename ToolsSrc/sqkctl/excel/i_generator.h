@@ -30,24 +30,6 @@ class IGenerator {
         }
         return false;
     }
-    
-    bool TypeCheck(const std::string &type)
-    {
-        if (type == "String" || type == "Int" || type == "Float" || type == "Object")
-        {
-            return true;
-        }
-        return false;
-    }
-
-    bool IsRemarkType(const std::string &type)
-    {
-        if (type == "")
-        {
-            return true;
-        }
-        return false;
-    }
 
     bool OpenFile(const std::string& file_path, std::ofstream& file, 
               std::ios::openmode open_mode = std::ios::out | std::ios::trunc) {

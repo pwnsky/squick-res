@@ -18,7 +18,7 @@ class XMLDataGenerator : public IGenerator {
                 continue;
             }
 
-            INFO("Save for ini ---> " << className);
+            INFO("Save for xml data ---> " << className);
 
             std::string path = pClassDta->filePath;
             Files::StringReplace(path, strExcelDataPath, "");

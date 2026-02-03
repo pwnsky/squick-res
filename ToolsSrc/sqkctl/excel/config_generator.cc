@@ -76,7 +76,7 @@ bool ConfigGenerator::LoadDataFromExcel(const std::string &filePath, const std::
         return false;
     }
 
-    INFO("Load excel: " << filePath);
+    INFO("Load data from excel: " << filePath);
 
     ClassData *pClassData = new ClassData();
     pClassData->xStructData.className = fileName;
@@ -186,6 +186,10 @@ bool ConfigGenerator::LoadIniData(mini_excel_reader::Sheet &sheet, ClassData *pC
 
             for (std::map<std::string, int>::iterator itProperty = PropertyIndex.begin(); itProperty != PropertyIndex.end(); ++itProperty) {
                 std::string propertyName = itProperty->first;
+                if (IsRemarkCol(propertyName))
+                {
+                    continue;
+                }
                 int col = itProperty->second;
 
                 mini_excel_reader::Cell *cell = sheet.getCell(r, col);
@@ -198,6 +202,22 @@ bool ConfigGenerator::LoadIniData(mini_excel_reader::Sheet &sheet, ClassData *pC
         }
     }
 
+    return false;
+}
+
+bool ConfigGenerator::TypeCheck(const std::string& type) {
+    if (type == "String" || type == "Int" || type == "Float" || type == "Object")
+    {
+        return true;
+    }
+    return false;
+}
+
+bool ConfigGenerator::IsRemarkCol(const std::string& col_name) {
+    if (col_name.length() > 0 && col_name[0] == '#')
+    {
+        return true;
+    }
     return false;
 }
 
@@ -221,28 +241,33 @@ bool ConfigGenerator::LoadDataAndProcessProperty(mini_excel_reader::Sheet &sheet
             PropertyIndex[cell->value] = c;
         }
     }
-    ////////////
 
     for (std::map<std::string, int>::iterator itProperty = PropertyIndex.begin(); itProperty != PropertyIndex.end(); ++itProperty) {
         std::string propertyName = itProperty->first;
         int col = itProperty->second;
-
-        ////////////
-        ClassProperty *pClassProperty = new ClassProperty();
-        pClassData->xStructData.xPropertyList[propertyName] = pClassProperty;
-
-        ////////////
+        if (IsRemarkCol(propertyName)) {
+            continue;
+        }
+        ClassProperty* pClassProperty = new ClassProperty();
+        
         for (std::map<std::string, int>::iterator itDesc = descIndex.begin(); itDesc != descIndex.end(); ++itDesc) {
             std::string descName = itDesc->first;
             int row = itDesc->second;
 
-            mini_excel_reader::Cell *pCell = sheet.getCell(row, col);
+            mini_excel_reader::Cell* pCell = sheet.getCell(row, col);
             if (pCell) {
                 std::string descValue = pCell->value;
-
+                if (descName == "Type")
+                {
+                    if(!TypeCheck(descValue)){
+                        ERROR("Type check is error: type [" << descValue << "] in col [" << propertyName << "] sheet: [" << strSheetName << "]");
+                    }
+                }
                 pClassProperty->descList[descName] = descValue;
             }
         }
+
+        pClassData->xStructData.xPropertyList[propertyName] = pClassProperty;
     }
 
     return false;

@@ -32,7 +32,6 @@ class XMLStructGenerator : public IGenerator {
             itProperty != pClassDta->xStructData.xPropertyList.end(); ++itProperty) {
             const std::string &propertyName = itProperty->first;
             ClassProperty *xPropertyData = itProperty->second;
-
             std::string strElementData = "\t\t<Property Id=\"" + propertyName + "\" ";
             for (std::map<std::string, std::string>::iterator itDesc = xPropertyData->descList.begin(); itDesc != xPropertyData->descList.end();
                  ++itDesc) {
@@ -70,13 +69,6 @@ class XMLStructGenerator : public IGenerator {
                      itDesc != xRecordData->colList.end(); ++itDesc) {
                     const std::string &strKey = itDesc->first;
                     const ClassRecord::RecordColDesc *pRecordColDesc = itDesc->second;
-                    if (IsRemarkType(pRecordColDesc->type))
-                    {
-                        continue;
-                    }else if (!TypeCheck(pRecordColDesc->type))
-                    {
-                        ERROR("Unrecognized record type [" << pRecordColDesc->type << "] file:" << fileName);
-                    }
                     if (pRecordColDesc->index == i) {
                         strElementData += "\t\t\t<Col Type =\"" + pRecordColDesc->type + "\"\tTag=\"" + strKey + "\"/>";
                         if (!pRecordColDesc->desc.empty()) {

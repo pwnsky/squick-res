@@ -45,6 +45,9 @@ class ConfigGenerator {
     void ProcessIncludeFiles();
     void ProcessRefFiles();
 
+    bool TypeCheck(const std::string& type);
+    bool IsRemarkCol(const std::string& col_name);
+
   private:
     bool bConvertIntoUTF8 = false;
 

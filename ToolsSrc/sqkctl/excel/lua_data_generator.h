@@ -105,13 +105,6 @@ class LuaDataGenerator : public IGenerator {
                     const std::string &type = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Type"];
                     const std::string &desc = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Desc"];
                     std::string outValue = "";
-                    if (IsRemarkType(type))
-                    {
-                        continue;
-                    }else if (!TypeCheck(type))
-                    {
-                        ERROR("Check type error: " << type);
-                    }
                     if (type == "Int" || type == "Float") {
                         if (value == "") {
                             outValue = "0";
