@@ -70,7 +70,13 @@ class XMLStructGenerator : public IGenerator {
                      itDesc != xRecordData->colList.end(); ++itDesc) {
                     const std::string &strKey = itDesc->first;
                     const ClassRecord::RecordColDesc *pRecordColDesc = itDesc->second;
-
+                    if (IsRemarkType(pRecordColDesc->type))
+                    {
+                        continue;
+                    }else if (!TypeCheck(pRecordColDesc->type))
+                    {
+                        ERROR("Unrecognized record type [" << pRecordColDesc->type << "] file:" << fileName);
+                    }
                     if (pRecordColDesc->index == i) {
                         strElementData += "\t\t\t<Col Type =\"" + pRecordColDesc->type + "\"\tTag=\"" + strKey + "\"/>";
                         if (!pRecordColDesc->desc.empty()) {

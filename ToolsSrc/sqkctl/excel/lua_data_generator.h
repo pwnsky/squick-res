@@ -61,14 +61,7 @@ class LuaDataGenerator : public IGenerator {
         return false;
     };
 
-    bool isStartWithNumber(const std::string s)
-    {
-        if (s[0] >= '0' && s[0] <= '9')
-        {
-            return true;
-        }
-        return false;
-    }
+    
 
     virtual bool Generate(const std::map<std::string, ClassData *> &classData) override {
 
@@ -112,10 +105,17 @@ class LuaDataGenerator : public IGenerator {
                     const std::string &type = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Type"];
                     const std::string &desc = pClassDta->xStructData.xPropertyList.at(strKey)->descList["Desc"];
                     std::string outValue = "";
-                    if (type == "int" || type == "bool" || type == "float" || type == "double" || type == "int64") {
+                    if (IsRemarkType(type))
+                    {
+                        continue;
+                    }else if (!TypeCheck(type))
+                    {
+                        ERROR("Check type error: " << type);
+                    }
+                    if (type == "Int" || type == "Float") {
                         if (value == "") {
                             outValue = "0";
-                            WARN("Check default value not set, ID: " << strElementName << " file: " << className << " col: " << strKey);
+                            ERROR("Check default value not set, ID: " << strElementName << " file: " << className << " col: " << strKey);
                         }else {
                             outValue = value;
                         }
